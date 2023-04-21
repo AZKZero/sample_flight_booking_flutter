@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:sample_flight_management_flutter/api/models/flight_model.dart';
 import 'package:sample_flight_management_flutter/api/models/token_model.dart';
@@ -26,7 +25,7 @@ class ApiProvider extends GetConnect {
       // }
       // if (response.statusCode == 401) {
       //   print('unauth');
-        
+      //   Get.offAndToNamed(Routes.login.page);
       // }
       return response;
     });
@@ -49,6 +48,12 @@ class ApiProvider extends GetConnect {
         decoder: (data) => TokenModel.fromJson(data),
       );
 
+  Future<Response<UserModel>> signupUser(SignupModel model) => post(
+        '/users/signup',
+        model.toJson(),
+        decoder: (data) => UserModel.fromJson(data),
+      );
+
   Future<Response<FlightResponseModel>> getFlights({
     String? airline,
     String? from,
@@ -56,13 +61,15 @@ class ApiProvider extends GetConnect {
     DateTime? departure,
     DateTime? arrival,
   }) =>
-      get('/flights',
-          query: {
-            'airline': airline,
-            'from': from,
-            'to': to,
-            'departure_date': departure,
-            'arrival_date': arrival,
-          }.filterNotNull().nullIfEmpty(),
-          decoder: (data) => FlightResponseModel.fromJson(data),);
+      get(
+        '/flights',
+        query: {
+          'airline': airline,
+          'from': from,
+          'to': to,
+          'departure_date': departure,
+          'arrival_date': arrival,
+        }.filterNotNull().nullIfEmpty(),
+        decoder: (data) => FlightResponseModel.fromJson(data),
+      );
 }

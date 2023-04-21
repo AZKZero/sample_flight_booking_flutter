@@ -55,7 +55,7 @@ class FlightResponseModel {
   FlightResponseModel({ this.flights });
 
   FlightResponseModel.fromJson(Map<String, dynamic> json){
-      flights=(json['flights'] as List<dynamic>).map((item) => FlightModel.fromJson(item)).toList();
+      flights=(json['flights'] as List<dynamic>?)?.map((item) => FlightModel.fromJson(item)).toList();
   }
 
   Map<String, dynamic> toJson(){

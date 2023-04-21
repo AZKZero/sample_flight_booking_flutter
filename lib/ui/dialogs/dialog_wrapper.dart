@@ -55,6 +55,7 @@ class DialogWrapper extends StatelessWidget {
                           onPressed: () => Get.back(result: 1),
                         ),
                       ),
+                      const SizedBox(width: 10,),
                       Expanded(
                         child: ElevatedButton(
                           child: Text(button2),

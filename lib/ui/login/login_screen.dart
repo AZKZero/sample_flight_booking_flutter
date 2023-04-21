@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sample_flight_management_flutter/pages.dart';
 import 'package:sample_flight_management_flutter/ui/login/login_controller.dart';
 
 class LoginScreen extends GetView<LoginController> {
@@ -33,6 +34,11 @@ class LoginScreen extends GetView<LoginController> {
                     password: passwordController.text);
               },
               child: const Text('Login')),
+          ElevatedButton(
+              onPressed: () {
+                Get.offAndToNamed(Routes.signup.page);
+              },
+              child: const Text('Signup')),
         ],
       ),
     );

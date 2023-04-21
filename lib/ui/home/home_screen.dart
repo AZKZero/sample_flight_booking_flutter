@@ -7,12 +7,14 @@ class HomeScreen extends GetView<HomeController> {
   HomeScreen({super.key}) {
     controller.getFlights();
   }
-  final List<String> locations = ['All', 'Dhaka', 'Essen', 'Chittagong'];
+  final List<String> locations = ['Dhaka', 'Essen', 'Chittagong'];
   final _formKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home'),),
+      appBar: AppBar(
+        title: const Text('Home'),
+      ),
       body: Column(children: [
         FormBuilder(
           key: _formKey,
@@ -60,7 +62,10 @@ class HomeScreen extends GetView<HomeController> {
           ),
         ),
         ElevatedButton(
-            onPressed: () => controller.getFlights(from: _formKey.currentState?.value['from'], to: _formKey.currentState?.value['to']),
+            onPressed: () {
+              _formKey.currentState?.save();
+              controller.getFlights(from: _formKey.currentState?.value['from'], to: _formKey.currentState?.value['to']);
+            },
             child: const Text('Search')),
         // ListView.builder(itemBuilder: (context, index) => ,itemCount: ,)
         Expanded(
@@ -72,13 +77,18 @@ class HomeScreen extends GetView<HomeController> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text('Item $index'),
-                          Text(controller.apiBuffer.value?.flights?[index].flightName ?? ''),
-                          Text(controller.apiBuffer.value?.flights?[index].flightNumber ?? ''),
-                          Text(controller.apiBuffer.value?.flights?[index].flightSource ?? ''),
-                          Text(controller.apiBuffer.value?.flights?[index].flightDestination ?? ''),
-                          Text(controller.apiBuffer.value?.flights?[index].flightTotalSeats?.toString() ?? ''),
+                          Text(
+                            controller.apiBuffer.value?.flights?[index].flightName ?? '',
+                            textAlign: TextAlign.start,
+                          ),
+                          Text(controller.apiBuffer.value?.flights?[index].flightNumber ?? '', textAlign: TextAlign.start),
+                          Text(controller.apiBuffer.value?.flights?[index].flightSource ?? '', textAlign: TextAlign.start),
+                          Text(controller.apiBuffer.value?.flights?[index].flightDestination ?? '', textAlign: TextAlign.start),
+                          Text(controller.apiBuffer.value?.flights?[index].flightTotalSeats?.toString() ?? '', textAlign: TextAlign.start),
                         ],
                       ),
                     ),
