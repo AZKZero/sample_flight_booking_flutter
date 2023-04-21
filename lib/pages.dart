@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:sample_flight_management_flutter/ui/home/home_controller.dart';
+import 'package:sample_flight_management_flutter/ui/home/home_screen.dart';
 import 'package:sample_flight_management_flutter/ui/login/login_controller.dart';
 import 'package:sample_flight_management_flutter/ui/login/login_screen.dart';
 
@@ -18,5 +20,11 @@ final pages = [
       page: () => LoginScreen(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => LoginController());
+      })),
+  GetPage(
+      name: Routes.home.page,
+      page: () => HomeScreen(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => HomeController());
       }))
 ];

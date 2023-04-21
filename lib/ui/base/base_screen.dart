@@ -12,7 +12,7 @@ class BaseView extends GetView<BaseController> {
         alignment: Alignment.center,
         children: [
           Positioned.fill(child: child!),
-          Obx(() => controller.showLoading.value
+          Obx(() => controller.isLoading.value
               ? Positioned.fill(
                   child: Container(
                   decoration: BoxDecoration(boxShadow: [
