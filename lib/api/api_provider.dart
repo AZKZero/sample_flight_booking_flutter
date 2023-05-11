@@ -5,6 +5,7 @@ import 'package:sample_flight_management_flutter/api/models/user_model.dart';
 import 'package:sample_flight_management_flutter/main.dart';
 import 'package:sample_flight_management_flutter/pages.dart';
 import 'package:sample_flight_management_flutter/utils/extensions.dart';
+import 'package:sample_flight_management_flutter/utils/logger.dart';
 import 'package:sprintf/sprintf.dart';
 
 class ApiProvider extends GetConnect {
@@ -13,31 +14,31 @@ class ApiProvider extends GetConnect {
     // httpClient.defaultDecoder
 
     httpClient.baseUrl = 'http://192.168.0.101:3000';
-    print('url set');
+    Log.d('HTTPLOG', 'url set');
     httpClient.addResponseModifier<dynamic>((request, response) async {
       // if (kDebugMode) {
-      print('Beginning Response Log:    -->');
-      print(sprintf('%-25s <-- %s', ['Request Url', request.url]));
-      print(sprintf('%-25s <-- %s', ['Request Headers', request.headers]));
-      print(sprintf('%-25s <-- %s', ['Response Code', response.statusCode]));
-      print(sprintf('%-25s <-- %s', ['Response Body', response.bodyString]));
-      print(sprintf('%-25s <--', ['Ending Response Log']));
+      Log.d('HTTPLOG', 'Beginning Response Log:    -->');
+      Log.d('HTTPLOG', sprintf('%-25s <-- %s', ['Request Url', request.url]));
+      Log.d('HTTPLOG', sprintf('%-25s <-- %s', ['Request Headers', request.headers]));
+      Log.d('HTTPLOG', sprintf('%-25s <-- %s', ['Response Code', response.statusCode]));
+      Log.d('HTTPLOG', sprintf('%-25s <-- %s', ['Response Body', response.bodyString]));
+      Log.d('HTTPLOG', sprintf('%-25s <--', ['Ending Response Log']));
       // }
       // if (response.statusCode == 401) {
-      //   print('unauth');
+      //   Log.d('HTTPLOG', 'unauth');
       //   Get.offAndToNamed(Routes.login.page);
       // }
       return response;
     });
     httpClient.addRequestModifier<dynamic>((request) async {
       // add request here
-      print(request.url);
+      Log.d('HTTPLOG', request.url.toString());
       request.headers['Authorization'] = 'Bearer ${prefs.getString('token')}';
 
-      print('Beginning Request Log:   -->');
-      print(sprintf('%-25s --> %s', ['Request Url', request.url]));
-      print(sprintf('%-25s --> %s', ['Request Headers', request.headers]));
-      print(sprintf('%-25s -->', ['Ending Response Log']));
+      Log.d('HTTPLOG', 'Beginning Request Log:   -->');
+      Log.d('HTTPLOG', sprintf('%-25s --> %s', ['Request Url', request.url]));
+      Log.d('HTTPLOG', sprintf('%-25s --> %s', ['Request Headers', request.headers]));
+      Log.d('HTTPLOG', sprintf('%-25s -->', ['Ending Response Log']));
       return request;
     });
   }

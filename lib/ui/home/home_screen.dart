@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:sample_flight_management_flutter/ui/home/home_controller.dart';
+import 'package:sample_flight_management_flutter/ui/home/widgets/flight_list.dart';
+import 'package:sample_flight_management_flutter/ui/home/widgets/flights_filter.dart';
 
 class HomeScreen extends GetView<HomeController> {
   HomeScreen({super.key}) {
     controller.getFlights();
   }
-  final List<String> locations = ['Dhaka', 'Essen', 'Chittagong'];
   final _formKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
@@ -16,86 +17,15 @@ class HomeScreen extends GetView<HomeController> {
         title: const Text('Home'),
       ),
       body: Column(children: [
-        FormBuilder(
-          key: _formKey,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: FormBuilderDropdown(
-                  items: [
-                    const DropdownMenuItem(
-                      alignment: AlignmentDirectional.center,
-                      value: null,
-                      child: Text('All'),
-                    ),
-                    ...locations
-                        .map((location) => DropdownMenuItem(
-                              alignment: AlignmentDirectional.center,
-                              value: location,
-                              child: Text(location),
-                            ))
-                        .toList()
-                  ],
-                  name: 'from',
-                ),
-              ),
-              Expanded(
-                child: FormBuilderDropdown(
-                  items: [
-                    const DropdownMenuItem(
-                      alignment: AlignmentDirectional.center,
-                      value: null,
-                      child: Text('All'),
-                    ),
-                    ...locations
-                        .map((location) => DropdownMenuItem(
-                              alignment: AlignmentDirectional.center,
-                              value: location,
-                              child: Text(location),
-                            ))
-                        .toList()
-                  ],
-                  name: 'to',
-                ),
-              ),
-            ],
-          ),
-        ),
+        FlightsFilter(formKey: _formKey),
         ElevatedButton(
             onPressed: () {
               _formKey.currentState?.save();
               controller.getFlights(from: _formKey.currentState?.value['from'], to: _formKey.currentState?.value['to']);
             },
             child: const Text('Search')),
-        // ListView.builder(itemBuilder: (context, index) => ,itemCount: ,)
         Expanded(
-          child: Obx(() => ListView.builder(
-                itemBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.blue), borderRadius: BorderRadius.circular(5)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Item $index'),
-                          Text(
-                            controller.apiBuffer.value?.flights?[index].flightName ?? '',
-                            textAlign: TextAlign.start,
-                          ),
-                          Text(controller.apiBuffer.value?.flights?[index].flightNumber ?? '', textAlign: TextAlign.start),
-                          Text(controller.apiBuffer.value?.flights?[index].flightSource ?? '', textAlign: TextAlign.start),
-                          Text(controller.apiBuffer.value?.flights?[index].flightDestination ?? '', textAlign: TextAlign.start),
-                          Text(controller.apiBuffer.value?.flights?[index].flightTotalSeats?.toString() ?? '', textAlign: TextAlign.start),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                itemCount: controller.apiBuffer.value?.flights?.length ?? 0,
-              )),
+          child: Obx(() => FlightList(flights: controller.apiBuffer.value?.flights ?? [])),
         )
       ]),
     );
