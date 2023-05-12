@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
+import 'package:sample_flight_management_flutter/api/models/booking_model.dart';
 import 'package:sample_flight_management_flutter/api/models/flight_model.dart';
 import 'package:sample_flight_management_flutter/api/models/token_model.dart';
 import 'package:sample_flight_management_flutter/api/models/user_model.dart';
 import 'package:sample_flight_management_flutter/main.dart';
-import 'package:sample_flight_management_flutter/pages.dart';
 import 'package:sample_flight_management_flutter/utils/extensions.dart';
 import 'package:sample_flight_management_flutter/utils/logger.dart';
 import 'package:sprintf/sprintf.dart';
@@ -72,5 +72,11 @@ class ApiProvider extends GetConnect {
           'arrival_date': arrival,
         }.filterNotNull().nullIfEmpty(),
         decoder: (data) => FlightResponseModel.fromJson(data),
+      );
+
+  Future<Response<BookingModel>> createBooking({int? flightId}) => post(
+        '/booking',
+        {flightId: flightId},
+        decoder: (data) => BookingModel.fromJson(data),
       );
 }

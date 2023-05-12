@@ -25,7 +25,10 @@ class HomeScreen extends GetView<HomeController> {
             },
             child: const Text('Search')),
         Expanded(
-          child: Obx(() => FlightList(flights: controller.apiBuffer.value?.flights ?? [])),
+          child: Obx(() => FlightList(
+                flights: controller.flightList.value?.flights ?? [],
+                onPressed: (flight) {},
+              )),
         )
       ]),
     );

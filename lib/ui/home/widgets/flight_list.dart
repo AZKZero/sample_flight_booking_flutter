@@ -1,37 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:sample_flight_management_flutter/api/models/flight_model.dart';
+import 'package:sample_flight_management_flutter/ui/home/widgets/flight_item.dart';
 
 class FlightList extends StatelessWidget {
-  const FlightList({super.key, required this.flights});
+  const FlightList({super.key, required this.flights, required this.onPressed});
   final List<FlightModel> flights;
-
+  final Function(FlightModel flight) onPressed;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-          shape: RoundedRectangleBorder(side: const BorderSide(color: Colors.blue), borderRadius: BorderRadius.circular(5)),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('Item $index'),
-                Text(
-                  flights[index].flightName ?? '',
-                  textAlign: TextAlign.start,
-                ),
-                Text(flights[index].flightNumber ?? '', textAlign: TextAlign.start),
-                Text(flights[index].flightSource ?? '', textAlign: TextAlign.start),
-                Text(flights[index].flightDestination ?? '', textAlign: TextAlign.start),
-                Text(flights[index].flightTotalSeats?.toString() ?? '', textAlign: TextAlign.start),
-              ],
-            ),
-          ),
-        ),
-      ),
+          padding: const EdgeInsets.all(8.0),
+          child: FlightItem(
+            index: index,
+            flight: flights[index],
+            onPressed: onPressed,
+          )),
       itemCount: flights.length,
     );
   }
